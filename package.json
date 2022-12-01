@@ -1,0 +1,61 @@
+{
+  "name": "electron-game-updater",
+  "productName": "Electron Game Updater",
+  "author": "devgames-app",
+  "description": "Electron Game Updater",
+  "version": "0.0.1",
+  "fileAssociations": {
+    "description": "Electron Game Updater"
+  },
+  "license": "MIT",
+  "scripts": {
+    "compile": "electron-webpack",
+    "dev": "electron-webpack dev && npm run json",
+    "build": "npm run compile && electron-builder && npm run json",
+    "dist": "npm run compile && electron-builder --publish always && npm run json",
+    "json": "cp build/egu-config.json dist/egu-config.json || copy build/egu-config.json dist/egu-config.json"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "electron": "^17.4.11",
+    "electron-builder": "^23.6.0",
+    "electron-webpack": "^2.8.2",
+    "electron-webpack-eslint": "^6.0.0",
+    "eslint-plugin-react": "^7.31.10",
+    "webpack": "^4.44.2"
+  },
+  "build": {
+    "artifactName": "${productName}.${ext}",
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        "portable"
+      ],
+      "publish": [
+        {
+          "provider": "github",
+          "repo": "electron-game-updater",
+          "owner": "devgames-app",
+          "private": false,
+          "releaseType": "release"
+        }
+      ]
+    },
+    "portable": {
+      "requestExecutionLevel": "admin"
+    }
+  },
+  "electronWebpack": {
+    "renderer": {
+      "template": "src/renderer/index.html",
+      "webpackConfig": "webpack.renderer.js"
+    }
+  }
+}
